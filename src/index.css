@@ -1,0 +1,14 @@
+:root {
+  --nsdl-blue: #1a365d;
+  --nsdl-accent: #2b6cb0;
+  --success-green: #38a169;
+  --error-red: #e53e3e;
+  --bg-gray: #f7fafc;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-gray);
+  color: #2d3748;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
