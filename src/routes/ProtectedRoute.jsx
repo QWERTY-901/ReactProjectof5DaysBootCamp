@@ -1,10 +1,11 @@
+import React from 'react';
 import { Navigate, Outlet } from 'react-router';
 
 const ProtectedRoute = () => {
-    const isAuthenticated = !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // If not logged in, redirect to login page
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+    // If no token, redirect to login
+    return token ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

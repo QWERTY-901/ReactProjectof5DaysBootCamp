@@ -1,15 +1,16 @@
 import React, { Suspense } from 'react';
+import LandingPage from './features/marketing/LandingPage';
 import { Routes, Route, Navigate } from 'react-router';
 import ProtectedRoute from './routes/ProtectedRoute';
 import DashboardLayout from './components/layout/DashboardLayout';
 import AuthLayout from './features/auth/AuthLayout';
 import LoginForm from './features/auth/LoginForm';
 import DashboardHome from './features/dashboard/DashboardHome';
-import MerchantList from './features/management/MerchantList';
-import ReportManager from './features/reports/ReportManager';
-import { fetchDashboardData } from './actions/dashboard';
-import { fetchMerchants } from './actions/merchants';
+import PlaceholderPage from './features/dashboard/PlaceholderPage';
+import AuditTrailPage from './features/audit/AuditTrailPage';
+import UserListReportPage from './features/userManagement/UserListReportPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
+
 
 function App() {
   return (
@@ -18,33 +19,43 @@ function App() {
       {/* 2. Root Suspense catches any lazy-loaded layout or protection logic */}
       <Suspense fallback={<div style={rootLoadingStyle}>Loading NSDL Portal...</div>}>
         <Routes>
-          {/* Auth Flow */}
+          {/* The landing page is now the root entry point */}
+          <Route path="/" element={<LandingPage />} />
+
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginForm />} />
           </Route>
 
-          {/* Banking Portal */}
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
-              <Route path="/dashboard" element={
-                <Suspense fallback={<div>Streaming Banking Stats...</div>}>
-                  <DashboardHome dataPromise={fetchDashboardData()} />
-                </Suspense>
-              } />
-
-              <Route path="/merchants" element={
-                <Suspense fallback={<div>Accessing User Directory...</div>}>
-                  <MerchantList listPromise={fetchMerchants()} />
-                </Suspense>
-              } />
-
-              <Route path="/reports" element={<ReportManager />} />
+              <Route path="/dashboard" element={<DashboardHome />} />
+              <Route
+                path="/user-management"
+                element={
+                  <Navigate to="/user-management/user-list-report" replace />
+                }
+              />
+              <Route
+                path="/user-management/create-cbc-user"
+                element={<PlaceholderPage title="Create CBC User" />}
+              />
+              <Route
+                path="/user-management/user-request"
+                element={<UserListReportPage variant="request" />}
+              />
+              <Route
+                path="/user-management/user-list-report"
+                element={<UserListReportPage variant="report" />}
+              />
+              <Route path="/audit-trail" element={<AuditTrailPage />} />
+              <Route
+                path="/wallet-adjustment"
+                element={<PlaceholderPage title="Wallet Adjustment" />}
+              />
             </Route>
           </Route>
 
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>

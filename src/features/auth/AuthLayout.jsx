@@ -1,25 +1,85 @@
+// src/features/auth/AuthLayout.jsx
 import React from 'react';
+import { Outlet } from 'react-router';
+import nsdlLogo from '../../assets/logo.png';
+import watermark from '../../assets/watermark.png';
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = () => {
     return (
-        <div style={containerStyle}>
-            <div style={cardStyle}>
-                <div style={logoSection}>
-                    <h1 style={{ color: '#1a365d', margin: 0 }}>NSDL</h1>
-                    <p style={{ color: '#666', fontSize: '0.9rem' }}>Payments Bank Portal</p>
+        <div className="auth-split-screen">
+            <div style={brandColumn}>
+                <header style={brandHeader}>
+                    <img src={nsdlLogo} alt="NSDL Payments Bank" style={logoImg} />
+                </header>
+
+                <div style={featurePanel}>
+                    <img
+                        src={watermark}
+                        alt=""
+                        style={watermarkImg}
+                        aria-hidden
+                    />
                 </div>
-                {children}
-                <div style={footerStyle}>
-                    <p>© 2026 Echelon Industries | Secure Staging Environment</p>
+            </div>
+
+            <div style={formColumn}>
+                <div style={formInner}>
+                    <Outlet />
                 </div>
             </div>
         </div>
     );
 };
 
-const containerStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f0f2f5' };
-const cardStyle = { background: '#fff', padding: '40px', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px' };
-const logoSection = { textAlign: 'center', marginBottom: '30px', borderBottom: '2px solid #f0f2f5', paddingBottom: '20px' };
-const footerStyle = { marginTop: '30px', textAlign: 'center', fontSize: '0.75rem', color: '#999' };
+const brandColumn = {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '40px 56px',
+    borderRight: '1px solid #f0f0f0',
+};
+
+const brandHeader = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '36px',
+};
+
+const logoImg = {
+    height: '48px',
+    width: 'auto',
+    display: 'block',
+};
+
+const featurePanel = {
+    flex: 1,
+    minHeight: '280px',
+    backgroundColor: '#e8eaed',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+};
+
+const watermarkImg = {
+    width: '55%',
+    maxWidth: '260px',
+    opacity: 0.22,
+    objectFit: 'contain',
+};
+
+const formColumn = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '48px 40px',
+};
+
+const formInner = {
+    width: '100%',
+    maxWidth: '420px',
+};
 
 export default AuthLayout;
