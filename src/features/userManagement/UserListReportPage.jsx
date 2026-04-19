@@ -6,11 +6,14 @@ import {
     Eye,
     Search,
     User,
+    Plus,
 } from 'lucide-react';
 import {
     STATUS_FILTER_OPTIONS,
     USER_TYPE_OPTIONS,
 } from './userManagementConstants';
+import ProfileDetailsModal from './ProfileDetailsModal';
+import CreateCBCUserForm from './CreateCBCUserForm';
 
 const PAGE_COPY = {
     report: {
@@ -149,8 +152,29 @@ function UserListReportPage({ variant = 'report' }) {
         2: '',
         3: '',
     });
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isCBCFormOpen, setIsCBCFormOpen] = useState(false);
 
     const maxPage = 56;
+
+    const handleProfileView = (user) => {
+        setSelectedUser(user);
+        setIsProfileModalOpen(true);
+    };
+
+    const handleCloseProfileModal = () => {
+        setIsProfileModalOpen(false);
+        setSelectedUser(null);
+    };
+
+    const handleOpenCBCForm = () => {
+        setIsCBCFormOpen(true);
+    };
+
+    const handleCloseCBCForm = () => {
+        setIsCBCFormOpen(false);
+    };
 
     const SortHead = ({ children }) => (
         <span style={thInner}>
@@ -172,14 +196,23 @@ function UserListReportPage({ variant = 'report' }) {
     const tableRows = dateFilters ? WIDE_MOCK : NARROW_MOCK;
 
     return (
-        <div style={page}>
-            <nav style={breadcrumb} aria-label="Breadcrumb">
-                <span style={crumbMuted}>User Management</span>
-                <span style={crumbSep}>/</span>
-                <span style={crumbActive}>{copy.crumb}</span>
-            </nav>
+        <React.Fragment>
+            <div style={page}>
+                <nav style={breadcrumb} aria-label="Breadcrumb">
+                    <span style={crumbMuted}>User Management</span>
+                    <span style={crumbSep}>/</span>
+                    <span style={crumbActive}>{copy.crumb}</span>
+                </nav>
 
-            <h1 style={title}>{copy.title}</h1>
+                <div style={headerSection}>
+                <h1 style={title}>{copy.title}</h1>
+                {variant === 'request' && (
+                    <button onClick={handleOpenCBCForm} style={createUserBtn}>
+                        <Plus size={16} style={{ marginRight: '8px' }} />
+                        Create CBC User
+                    </button>
+                )}
+            </div>
 
             <div style={radioRow}>
                 <label style={radioLabel}>
@@ -473,9 +506,10 @@ function UserListReportPage({ variant = 'report' }) {
                                                 <button
                                                     type="button"
                                                     style={linkBtn}
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    }
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleProfileView(row);
+                                                    }}
                                                 >
                                                     <Eye
                                                         size={14}
@@ -655,6 +689,17 @@ function UserListReportPage({ variant = 'report' }) {
                 </div>
             </div>
         </div>
+        
+        <ProfileDetailsModal
+            isOpen={isProfileModalOpen}
+            onClose={handleCloseProfileModal}
+            user={selectedUser}
+        />
+        <CreateCBCUserForm
+            isOpen={isCBCFormOpen}
+            onClose={handleCloseCBCForm}
+        />
+        </React.Fragment>
     );
 }
 
@@ -902,6 +947,27 @@ const checkbox = {
     height: 16,
     accentColor: maroon,
     cursor: 'pointer',
+};
+
+const headerSection = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+};
+
+const createUserBtn = {
+    backgroundColor: maroon,
+    color: 'white',
+    border: 'none',
+    padding: '12px 20px',
+    borderRadius: '6px',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    transition: 'background-color 0.2s',
 };
 
 const footer = {

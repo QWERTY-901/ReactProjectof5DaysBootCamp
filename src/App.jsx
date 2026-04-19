@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import LandingPage from './features/marketing/LandingPage';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate, useNavigate } from 'react-router';
 import ProtectedRoute from './routes/ProtectedRoute';
 import DashboardLayout from './components/layout/DashboardLayout';
 import AuthLayout from './features/auth/AuthLayout';
@@ -9,6 +9,7 @@ import DashboardHome from './features/dashboard/DashboardHome';
 import PlaceholderPage from './features/dashboard/PlaceholderPage';
 import AuditTrailPage from './features/audit/AuditTrailPage';
 import UserListReportPage from './features/userManagement/UserListReportPage';
+import CreateCBCUserPage from './features/userManagement/CreateCBCUserPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
 
@@ -37,7 +38,7 @@ function App() {
               />
               <Route
                 path="/user-management/create-cbc-user"
-                element={<PlaceholderPage title="Create CBC User" />}
+                element={<CreateCBCUserPage />}
               />
               <Route
                 path="/user-management/user-request"
