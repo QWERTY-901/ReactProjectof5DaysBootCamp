@@ -20,8 +20,8 @@ function App() {
       {/* 2. Root Suspense catches any lazy-loaded layout or protection logic */}
       <Suspense fallback={<div style={rootLoadingStyle}>Loading NSDL Portal...</div>}>
         <Routes>
-          {/* The landing page is now the root entry point */}
-          <Route path="/" element={<LandingPage />} />
+          {/* Redirect root to login page */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
 
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginForm />} />
