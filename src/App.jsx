@@ -1,10 +1,8 @@
 import React, { Suspense } from 'react';
-import LandingPage from './features/marketing/LandingPage';
-import { Routes, Route, Navigate, useNavigate } from 'react-router';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
 import DashboardLayout from './components/layout/DashboardLayout';
-import AuthLayout from './features/auth/AuthLayout';
-import LoginForm from './features/auth/LoginForm';
+import AuthSystem from './components/AuthSystem';
 import DashboardHome from './features/dashboard/DashboardHome';
 import PlaceholderPage from './features/dashboard/PlaceholderPage';
 import AuditTrailPage from './features/audit/AuditTrailPage';
@@ -23,9 +21,7 @@ function App() {
           {/* Redirect root to login page */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<LoginForm />} />
-          </Route>
+          <Route path="/login" element={<AuthSystem />} />
 
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>

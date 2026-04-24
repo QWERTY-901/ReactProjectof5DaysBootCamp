@@ -65,7 +65,7 @@ const featurePanel = {
 const watermarkImg = {
     width: '55%',
     maxWidth: '260px',
-    opacity: 0.22,
+    opacity: 0.05,
     objectFit: 'contain',
 };
 
